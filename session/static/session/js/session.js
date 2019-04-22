@@ -26,7 +26,7 @@ $(function() {
         }
     });
 
-    var websocket_url = 'ws://' + window.location.host + '/ws/session/' + session_id + '/';
+    var websocket_url = 'wss://' + window.location.host + '/ws/session/' + session_id + '/';
     var socket = new ReconnectingWebSocket(websocket_url);
 
     var chat = $("#chat");
