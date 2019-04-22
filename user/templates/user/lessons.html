@@ -1,0 +1,67 @@
+{% extends 'baseWideCentered.html' %}{% load static %}
+
+{% block content %}
+  <table class="w-100">
+    <caption class="text-dark font-weight-bold" style="caption-side: top"><a href="{% url 'subjects' %}">Subjects</a> / {{ subject.name }}</caption>
+    {% if subject.lessons.count %}
+    <thead>
+      <tr>
+        <th></th>
+        <th>#</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    {% for lesson in subject.lessons.all %}
+    <tr class='clickable-row btn-outline-dark' data-href='{% url 'questions' l_id=lesson.id s_id=subject.id %}'>
+      <td class="text-left">
+        <form action="{% url 'delete_lesson' s_id=subject.id l_id=lesson.id %}" method="POST">{% csrf_token %}
+          <button type="submit" class="btn btn-light">
+            <img src="{% static 'user/images/delete.png' %}" alt="Delete" style="height: 3vh">
+          </button>
+        </form>
+      </td>
+      <td>
+        Lesson {{ lesson.number }}
+      </td>
+      <td>
+        {{ lesson.description }}
+      </td>
+      <td class="text-right">
+        <form action="{% url 'session_create' s_id=subject.id l_id=lesson.id %}" method="POST">{% csrf_token %}
+          <button type="submit" class="btn btn-light">
+            <img src="{% static 'user/images/start.png' %}" alt="Delete" style="height: 3vh">
+          </button>
+        </form>
+      </td>
+      <td class="text-right p-0">
+        <form action="{% url 'update_lesson' s_id=subject.id l_id=lesson.id %}" method="GET">{% csrf_token %}
+          <button type="submit" class="btn btn-light">
+            <img src="{% static 'user/images/edit.png' %}" alt="Update" style="height: 3vh">
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr><td class="text-center">No lessons yet. Please add lesson</td></tr>
+    {% endif %}
+    <tr>
+      <td colspan="5" class="p-3 text-center">
+        <form action="{% url 'add_lesson' s_id=subject.id%}">
+          <input type="submit" class="btn btn-outline-dark" value="+ Lesson">
+        </form>
+      </td>
+    </tr>
+  </table>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function() {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}

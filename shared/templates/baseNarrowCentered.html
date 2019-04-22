@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="{% static 'icons/favicon.ico' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedbook</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+{% block style%}{% endblock %}
+</head>
+<body class="bg">
+<!-- Wrapper -->
+<div class="d-flex" id="wrapper">
+
+<!-- Sidebar -->
+<div class="bg-light d-flex align-items-center" id="sidebar-wrapper">
+  <div class="list-group list-group-flush">
+    <div class="list-group-item list-group-item-info bg-light text-center">{{ request.user }}</div>
+    <a href="{% url 'home' %}" class="list-group-item list-group-item-action bg-light">Home</a>
+    <a href="{% url 'subjects' %}" class="list-group-item list-group-item-action bg-light">Subjects</a>
+    <a href="{% url 'statistics' %}" class="list-group-item list-group-item-action bg-light">Statistics</a>
+    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-light align-self-baseline">Log out</a>
+  </div>
+</div>
+<!-- /#sidebar-wrapper -->
+
+<!-- Page Content -->
+<div id="page-content-wrapper">
+<main class="container-fluid h-100">
+ <div id="a" class="row h-100 justify-content-center">
+
+      <div class="col-lg-4 d-flex flex-column justify-content-center">
+
+            {% block remove_menu %}
+            <nav>
+              <input id="menu-toggle" class="btn-outline-light my-2" type="image" src="{% static 'user/images/ham.png' %}" style="max-height: 3vh">
+            </nav>
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+
+      </div>
+
+
+  </div>
+</main>
+</div>
+<!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+{# scripts #}
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<!-- Menu Toggle Script -->
+<script>
+  let wrapper = $("#wrapper");
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      wrapper.toggleClass("toggled");
+  });
+</script>
+{% block script %} {% endblock %}
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'baseNarrowCentered.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block home_class %}bg-white{% endblock %}
+{% block content %}
+     <form action="{% url 'connect_to_session' %}" method="GET">
+      {% csrf_token %}
+      {% crispy connect_form %}
+     </form>
+
+
+{#  <form action="{% url 'create_session' %}" method="POST">#}
+{#    {% csrf_token %}#}
+{#    {% crispy create_form %}#}
+{#  </form>#}
+{% endblock %}
+
+{% block script %}
+{#<script>#}
+{#  let csrf_token = '{{ csrf_token }}';#}
+{#</script>#}
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'baseNarrowCentered.html' %}{% load static %}{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <form id='s_form' action="{% url 'update_subject' s_id=s_form.instance.id %}" method="POST">
+      {% crispy s_form %}
+    </form>
+
+{% endblock %}

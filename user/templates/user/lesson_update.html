@@ -1,0 +1,16 @@
+{% extends 'baseNarrowCentered.html' %}{% load static %}{% load crispy_forms_filters %}
+{% block content %}
+
+  <form id='l_form' action="{% url 'update_lesson' l_id=l_form.instance.id s_id=subject.id %}" method="POST">
+      {% crispy l_form %}
+  </form>
+{% endblock %}
+{% block script %}
+<script>
+$(function() {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}

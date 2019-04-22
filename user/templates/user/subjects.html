@@ -1,0 +1,70 @@
+{% extends 'baseWideCentered.html' %}{% load static %}
+
+{% block content %}
+  <table class="w-100">
+    {% if request.user.subjects.count %}
+      <thead>
+      <tr>
+        <th></th>
+        <th>
+          Code
+        </th>
+        <th>
+          Name
+        </th>
+        <th></th>
+      </tr>
+      </thead>
+      {% for subject in request.user.subjects.all %}
+        <tr class='clickable-row btn-outline-dark' data-href='{% url 'lessons' s_id=subject.id %}'>
+          <td class="text-left">
+            <form action="{% url 'delete_subject' s_id=subject.id %}" method="POST">{% csrf_token %}
+              <button type="submit" class="btn btn-light">
+                <img src="{% static 'user/images/delete.png' %}" alt="Delete" style="height: 3vh">
+              </button>
+            </form>
+          </td>
+          <td>
+            {{ subject.code }}
+          </td>
+          <td>
+            {{ subject.name }}
+          </td>
+          <td class="text-right">
+            <form action="{% url 'update_subject' s_id=subject.id %}" method="GET">{% csrf_token %}
+              <button type="submit" class="btn btn-light">
+                <img src="{% static 'user/images/edit.png' %}" alt="Update" style="height: 3vh">
+              </button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+        <tr>
+          <td class="text-center">
+            No subjects yet. Please add subject
+          </td>
+        </tr>
+    {% endif %}
+    <tr>
+      <td colspan="4" class="p-3 text-center">
+        <form action="{% url 'add_subject'%}" method="GET">{% csrf_token %}
+          <input type="submit" class="btn btn-outline-dark" value="+ Subject">
+        </form>
+      </td>
+    </tr>
+
+  </table>
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+$(function() {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}

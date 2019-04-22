@@ -1,0 +1,126 @@
+{% extends 'baseWideCentered.html' %}{% load static %}
+
+{% block content %}
+      <table class="w-100">
+            <caption class="text-dark font-weight-bold" style="caption-side: top"><a href="{% url 'statistics' %}">Statistics</a> /
+              <a href="{% url 'subject_statistics' subject_code=subject_code %}">{{ subject_code }}</a>
+            </caption>
+            <tbody>
+                  <tr>
+                      <td>
+                          <canvas id="answers_chart" width="300" height="200" class="bg-white"></canvas>
+                      </td>
+                  </tr>
+            </tbody>
+      </table>
+      {% for question, answers in feedback.items %}
+          <table class="w-100">
+          <caption class="text-dark font-weight-bold text-center" style="caption-side: top">{{ question }}</caption>
+              <thead>
+                  <tr>
+                    <th>
+                        Response
+                    </th>
+                    <th class="text-right">
+                        Count
+                    </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for answer in answers %}
+                  <tr class="border-dark border-bottom">
+                      <td>
+                          {{ answer.0 }}
+                      </td>
+                      <td class="text-right">
+                          {{ answer.1 }}
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+
+          </table>
+      {% endfor %}
+
+
+      {% if messages.count %}
+        <table class="w-100 pb-5">
+            <caption class="text-dark font-weight-bold text-center" style="caption-side: top">Messages</caption>
+            <thead>
+                <tr>
+                    <th>
+                        Message
+                    </th>
+                    <th class="text-right">
+                        Likes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                      <tr>
+                          <td>
+                            {{ message.text }}
+                          </td>
+                          <td class="text-right">
+                            {{ message.likes_count }}
+                          </td>
+                      </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      {% endif %}
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'user/js/charts/node_modules/chartjs/dist/Chart.bundle.min.js' %}"></script>
+<script>
+$(function() {
+    let answers_ctx = $("#answers_chart");
+    let labels = {{ q_labels | safe}};
+    let correct = {{ a_correct }};
+    let wrong = {{ a_wrong }};
+    let none = {{ a_none }};
+    let answers_chart = new Chart(answers_ctx, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: '# Correct',
+                  data: correct,
+                  backgroundColor: 'green',
+                  borderWidth: 1
+              },
+              {
+                  label: '# Wrong',
+                  data: wrong,
+                  backgroundColor: 'red',
+                  borderWidth: 1
+              },
+              {
+                  label: '# No Answer',
+                  data: none,
+                  backgroundColor: 'yellow',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              barValueSpacing: 20,
+              scales: {
+                  yAxes: [{
+                      stacked: true,
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }],
+                  xAxes: [{
+                    stacked: true,
+                }]
+              }
+          }
+    });
+
+
+});
+</script>
+{% endblock %}

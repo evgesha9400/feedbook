@@ -1,0 +1,33 @@
+{% extends "baseNarrowCentered.html" %}
+{% load crispy_forms_filters %}
+{% block remove_menu %} {% endblock %}
+{% block content %}
+    <form action="{% url 'login' %}" method="POST" class="">{% csrf_token %}
+        <nav class="nav justify-content-around p-2">
+          <a href="{% url 'login' %}">LOGIN</a>
+          <a href="{% url 'register' %}">REGISTER</a>
+        </nav>
+        {{ form | crispy }}
+        <input type="submit" class="btn btn-light float-right" name="login" value="Log In">
+    </form>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block refrence %}
+{#<a#}
+{#  class="text-white font-weight-bold ref"#}
+{#  style="#}
+{#  font-size:12px;"#}
+{#  href="https://unsplash.com/@joannakosinska?utm_medium=referral#}
+{#  &amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"#}
+{#  target="_blank"#}
+{#  rel="noopener noreferrer">#}
+{#  background by Joanna Kosinska#}
+{#</a>#}
+{% endblock %}

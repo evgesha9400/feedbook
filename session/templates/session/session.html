@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="{% static 'icons/favicon.ico' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedbook</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+<style>
+.bg {
+    background-image: url("{% static 'user/images/background.jpg' %}");
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    overflow-x: hidden;
+}
+#session_id, #connected_users{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+#question_overlay {
+    display:none;
+    background-image: url("{% static 'user/images/background2.jpg' %}");
+    position: absolute;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    background-color: rgba(255, 255, 255, 1);
+}
+#question_timer {
+    font-size: 4vh;
+    font-weight: 600;
+}
+#question_text{
+    font-size: 4vh;
+    font-weight: 500;
+}
+#question_image img {
+    max-width: 100%;
+    max-height: 45vh;
+}
+
+.message_likes input {
+    width: 2.5vh;
+}
+
+.mcq_answer {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+    width: 45vw;
+}
+
+</style>
+</head>
+<body>
+<div class="container-fluid bg">
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-6">
+
+
+
+            {% if request.user == session.teacher %}
+                <div class="row justify-content-between p-2">
+                    <input type="button" id="close_session" class="btn btn-light border border-dark" value="Close session">
+                    <span id="session_id">ID: {{ session.session_id }}</span>
+                    <span id="connected_users">Users: {{ session.connected_users.count }}</span>
+                </div>
+            {% endif %}
+
+
+
+            <table id="chat" class="table">
+                  {% for message in messages.all %}
+                        <tr id="m_{{ message.id }}" class="message">
+                              <td class="message_text text-center">{{ message.text }}</td>
+                              <td class="message_likes text-right">
+                                  <input type="image" src="{% static "session/images/like.png"%}" alt="like"/>
+                                  <span class="count">{{ message.likes_count }}</span>
+                              </td>
+                        </tr>
+                  {% endfor %}
+            </table>
+
+
+
+
+            {% if not request.user == session.teacher %}
+                  <table id="input_table" class="w-100 mb-2">
+                        <tr>
+                              <td class="chat_input" colspan="2">
+                                  <div class="input-group">
+                                      <input type="text" id="message_input" class="form-control">
+                                      <div class="input-group-append">
+                                        <input type="button" id="send_message_btn" class="btn btn-light border border-dark" value="Send">
+                                      </div>
+                                  </div>
+                              </td>
+                        </tr>
+                  </table>
+            {% endif %}
+
+
+
+            {% if request.user == session.teacher and lesson.questions.count > 0%}
+                <div class="accordion" id="teacher_questions">
+
+
+
+                        <div id="collapse" class="collapse host_panel" aria-labelledby="heading" data-parent="#teacher_questions">
+
+                              <table class="w-100">
+
+                                  {% for question in lesson.questions.all %}
+                                      <tr id="q_{{ question.id }}">
+                                          <td class="">{{ question.text }}</td>
+                                          <td class="">{{ question.timeout }}s</td>
+                                          <td class="text-right">
+                                            <input type="button" class="btn btn-outline-dark ask" value="Ask">
+                                          </td>
+                                      </tr>
+                                  {% endfor %}
+
+                              </table>
+
+                        </div>
+
+
+
+                        <div class="row justify-content-center">
+                              <button id="heading"
+                                      class="btn btn-outline-dark"
+                                      type="button" data-toggle="collapse"
+                                      data-target="#collapse"
+                                      aria-expanded="true"
+                                      aria-controls="collapse">
+                                      Questions
+                              </button>
+                        </div>
+
+
+
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+
+    <div id="question_overlay">
+          <div class="container-fluid d-flex flex-column h-100">
+
+                  <div class="row justify-content-end p-2">
+
+                        <div class="col-10 text-center">
+                              <div id="question_image">
+                              </div>
+                        </div>
+
+
+                        <div class="col-1 p-0">
+                              <div id="question_timer">
+                              </div>
+                        </div>
+
+                  </div>
+
+                  <div class="row justify-content-center px-2 flex-fill h-100">
+                      <div class="col d-flex flex-column justify-content-center">
+                          <div id="question_text" class="text-center">
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                          <div class="col d-flex flex-column">
+                                <div id="choice_row1" class="w-100 text-center">
+                                </div>​
+                                <div id="choice_row2" class="w-100 text-center">
+                                </div>​
+                          </div>
+                  </div>
+          </div>
+    </div>
+
+
+
+
+</div>
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script type="text/javascript" src='{% static "session/js/reconnecting-websocket.min.js" %}'></script>
+<script src="{% static 'user/js/charts/node_modules/chartjs/dist/Chart.bundle.min.js' %}"></script>
+<script>
+    let media_url = {% get_media_prefix %};
+    let session_id = {{ session.session_id }};
+</script>
+{% if request.user == session.teacher %}
+    <script type="text/javascript" src='{% static "session/js/session_teacher.js" %}'></script>
+{% else %}
+    <script type="text/javascript" src='{% static "session/js/session.js" %}'></script>
+{% endif %}
+

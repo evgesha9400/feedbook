@@ -1,0 +1,49 @@
+{% extends 'baseWideCentered.html' %}{% load static %}
+{% block content %}
+
+<table class="w-100">
+  <caption class="text-dark font-weight-bold" style="caption-side: top"><a href="{% url 'statistics' %}">Statistics</a> / {{ sessions.first.subject_code }}</caption>
+        <thead>
+        <tr>
+          <th>
+            Session ID
+          </th>
+          <th>
+            Lesson #
+          </th>
+          <th>
+            Time
+          </th>
+          <th>
+            Date
+          </th>
+          <th>
+
+          </th>
+        </tr>
+        </thead>
+        {% for session in sessions %}
+        <tr>
+            <td>
+                {{ session.session_id }}
+            </td>
+            <td>
+                {{ session.lesson_number }}
+            </td>
+            <td>
+                {{ session.start_time.time }}
+            </td>
+            <td>
+                {{ session.start_time.date }}
+            </td>
+            <td class="text-right p-0">
+                <form action="{% url 'session_graphs' subject_code=session.subject_code session_id=session.session_id %}" method="GET">{% csrf_token %}
+                      <button type="submit" class="btn btn-light">
+                          <img src="{% static 'user/images/stats.png' %}" alt="Stats" style="height: 3vh">
+                      </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+</table>
+{% endblock %}

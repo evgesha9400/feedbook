@@ -1,0 +1,54 @@
+{% extends 'baseNarrowCentered.html' %}{% load static %}
+{% block content %}
+<table class="w-100">
+      {% if sessions %}
+        <thead>
+        <tr>
+          <th>
+            Code
+          </th>
+          <th class="text-center">
+            Subject
+          </th>
+          <th>
+          </th>
+        </tr>
+        </thead>
+        {% for session in sessions %}
+        <tr class='clickable-row btn-outline-dark' data-href='{% url 'subject_statistics' subject_code=session.subject_code %}'>
+            <td>
+                {{ session.subject_code }}
+            </td>
+            <td class="w-100 text-center">
+                {{ session.subject_name }}
+            </td>
+            <td class="text-right p-0">
+                <form action="{% url 'subject_graphs' subject_code=session.subject_code %}" method="GET">{% csrf_token %}
+                      <button type="submit" class="btn btn-light">
+                          <img src="{% static 'user/images/stats.png' %}" alt="Stats" style="height: 3vh">
+                      </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+          <tr>
+            <td class="text-center">
+              You have no completed sessions
+            </td>
+          </tr>
+      {% endif %}
+</table>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function() {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}
+
+
