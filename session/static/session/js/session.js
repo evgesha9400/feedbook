@@ -226,7 +226,7 @@ $(function() {
         for(var index in choices){
             let id = choices[index].pk;
             let text = choices[index].fields.text;
-            let btn = get_mcq_input(index, id, text);
+            let btn = get_mcq_input(index, text);
             if (index < 2){
                 choice_row1.append(btn);
             } else if (index < 4){
