@@ -136,21 +136,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "live-static-files", "static-root")
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'shared/static'),
 )
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "live-static-files", "media-root")
 
-MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static-root")
+MEDIA_ROOT = os.path.join(BASE_DIR, "staticfiles", "media-root")
+
 
 
 LOGGING = {
