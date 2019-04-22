@@ -31,6 +31,7 @@ $(function() {
         if (this.files && this.files[0]) {
             let reader = new FileReader();
             reader.onload = function(e) {
+                $("#preview").empty();
                 $("#preview").append(
                     `<img class='rounded' src="${e.target.result}" alt="Preview">`
                 );
