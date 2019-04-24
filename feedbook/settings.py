@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-import dj-database-url
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -94,8 +94,9 @@ WSGI_APPLICATION = 'feedbook.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+import dj-database-url
 db_from_env = dj_database_url.config()
-DATABASES[‘default’].update(db_from_env)
+DATABASES['default'].update(db_from_env)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
