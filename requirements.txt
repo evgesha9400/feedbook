@@ -21,6 +21,7 @@ incremental==17.5.0
 msgpack==0.6.1
 olefile==0.46
 Pillow==5.4.1
+psycopg2-binary==2.8.2
 PyHamcrest==1.9.0
 pytz==2018.9
 six==1.12.0
