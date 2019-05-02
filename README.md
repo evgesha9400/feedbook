@@ -1,4 +1,5 @@
-This is the first version of the feedbook project created as a requirement for finaly year project module at Queen Mary University of London
+Feedbook is created as a requirement for finaly year project module at Queen Mary University of London.
+This version is a prototype and has some bugs.
 
 Deployed version is available at the follwing link:
 
