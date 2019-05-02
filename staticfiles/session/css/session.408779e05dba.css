@@ -1,0 +1,43 @@
+.message_likes input {
+    max-width: 2ex;
+}
+#session_id, #connected_users{
+    font-size: x-large;
+    font-weight: bold;
+}
+#question_container{
+      border-color: black;
+      border-radius: 25px;
+      margin-left: 2ex;
+}
+.question_answer_container{
+      border-style: solid;
+      border-width: thick;
+      border-color: black;
+      border-radius: 25px;
+      margin: 2ex;
+      padding: 1ex;
+}
+#question_overlay {
+      position: absolute;
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      background-color: rgba(255, 255, 255, 1);
+      -webkit-overflow-scroll: touch;
+}
+#question_image {
+  height: 30vh;
+}
+#question_image img{
+  height: 100%;
+}
+
+#questions {
+  vertical-align: baseline;
+}

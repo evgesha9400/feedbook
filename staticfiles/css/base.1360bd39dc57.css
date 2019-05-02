@@ -1,0 +1,48 @@
+html, body{
+    height: 100%;
+    overflow-x: hidden; !important;
+}
+label, .form-text, a{
+    color: black !important;
+}
+.invalid-feedback {
+    display: block;
+}
+.bg {
+    background-image: url("/static/user/images/background.cb0621cae763.jpg");
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+}
+.ref {
+    position:fixed;
+    bottom:1px;
+    right:1px;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+
+

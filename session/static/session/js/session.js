@@ -1,5 +1,5 @@
 $(function() {
-
+    // ajaxSetup code from https://gist.github.com/alanhamlett/6316427
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
